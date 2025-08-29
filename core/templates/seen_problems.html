@@ -1,0 +1,44 @@
+<!-- templates/seen_problems.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Seen Problems</h2>
+
+{% if seen_problems %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Rating</th>
+                    <th>Tag</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sp in seen_problems %}
+                    <tr>
+                        <td>
+                            <strong>{{ sp.problem.contest_id }}{{ sp.problem.index }}</strong>: 
+                            {{ sp.problem.name }}
+                        </td>
+                        <td>{{ sp.problem.rating }}</td>
+                        <td>{{ sp.problem.get_tag_display }}</td>
+                        <td>
+                            <a href="{{ sp.problem.url }}" target="_blank" class="btn btn-sm btn-primary">Open</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>You haven't seen any problems yet.</p>
+    </div>
+{% endif %}
+
+<div class="mt-3">
+    <a href="{% url 'random_problem' %}" class="btn btn-primary">Get Random Problem</a>
+</div>
+{% endblock %}

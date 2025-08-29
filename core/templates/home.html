@@ -1,0 +1,68 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center">
+            <h1>Welcome to Codeforces Problem Picker 🎯</h1>
+            <p class="lead">Select a rating range and click below to get a random Codeforces problem.</p>
+        </div>
+
+        <!-- Login Benefit Note -->
+        {% if not user.is_authenticated %}
+        <div class="alert alert-info mt-3">
+            <strong>💡 Tip:</strong> If you <a href="{% url 'login' %}" class="alert-link">login</a>, 
+            we'll track which problems you've already seen to avoid showing repeats!
+            <br><small>Login is optional but recommended for the best experience.</small>
+        </div>
+        {% endif %}
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Select Rating Range</h5>
+                <form method="GET" action="{% url 'random_problem' %}">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="min_rating">Min Rating</label>
+                                <input type="number" class="form-control" id="min_rating" name="min_rating" 
+                                       min="0" max="4000" placeholder="800" value="{{ request.GET.min_rating }}">
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <span class="d-block mt-4">to</span>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="max_rating">Max Rating</label>
+                                <input type="number" class="form-control" id="max_rating" name="max_rating" 
+                                       min="0" max="4000" placeholder="2000" value="{{ request.GET.max_rating }}">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Get Random Problem</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <p>Or go directly to the problem picker with all problems:</p>
+            <a href="{% url 'random_problem' %}" class="btn btn-outline-primary">All Problems</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3 class="text-center">Popular Rating Ranges</h3>
+        <div class="d-flex justify-content-center flex-wrap gap-2 mt-3">
+            <a href="{% url 'random_problem' %}?min_rating=800&max_rating=1200" class="btn btn-outline-secondary">Beginner (800-1200)</a>
+            <a href="{% url 'random_problem' %}?min_rating=1200&max_rating=1600" class="btn btn-outline-secondary">Intermediate (1200-1600)</a>
+            <a href="{% url 'random_problem' %}?min_rating=1600&max_rating=2000" class="btn btn-outline-secondary">Advanced (1600-2000)</a>
+            <a href="{% url 'random_problem' %}?min_rating=2000&max_rating=2400" class="btn btn-outline-secondary">Expert (2000-2400)</a>
+            <a href="{% url 'random_problem' %}?min_rating=2400&max_rating=4000" class="btn btn-outline-secondary">Master+ (2400+)</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
